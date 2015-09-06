@@ -27,7 +27,9 @@ public class Main{
 		Brick brick = BrickFinder.getDefault();
     	Port s1 = brick.getPort("S1"); // fargesensor
  		Port s2 = brick.getPort("S2"); // trykksensor
+		Port s3 = brick.getPort("S3"); // lydsensor
 		EV3ColorSensor fargesensor = new EV3ColorSensor(s1); // ev3-fargesensor
+		NXTSoundSensor lydsensor = new NXTSoundSensor(s3); // NXT-lydsensor
 		
 		
 		SampleProvider fargeLeser = fargesensor.getMode("RGB");  // svart = 0.01..
@@ -37,8 +39,16 @@ public class Main{
 		SampleProvider trykksensor = new EV3TouchSensor(s2);
 		float[] trykkSample = new float[trykksensor.sampleSize()]; // tabell som inneholder avlest verdi
 		
+		SampleProvider lydLeser = lydsensor.getDBAMode();
+		float[] lydSample = new float[lydLeser.sampleSize()]; // tabell som inneholder avlest verdi
 		
+		for (int i = 0; i < 1000; i++) {
+			lydLeser.fetchSample(lydSample, 0);
+			System.out.println(lydSample[0]);
+		}
 	}
-
+	
+	
+	
   
 }
