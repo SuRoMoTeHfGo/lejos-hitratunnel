@@ -21,6 +21,11 @@ import lejos.hardware.sensor.*;
 
 class Main {
 	
+	static Brick brick = BrickFinder.getDefault();
+	static Port s1 = brick.getPort("S1"); // soundSensor
+	static Port s2 = brick.getPort("S2"); // fargeSensor
+	static Port s3 = brick.getPort("S3");
+	
 	// Hovedfunksjon
 	static void main(String[] args) throws Exception {
 		// sjekkLyd()
@@ -29,20 +34,13 @@ class Main {
 		// kjørFrem()
 		// snu()
 		// stoppOgVent()
-		try {
-			Brick brick = BrickFinder.getDefault();
-    		Port s1 = brick.getPort("S1"); // soundSensor
-    		Port s2 = brick.getPort("S2"); // fargeSensor
-    		Port s3 = brick.getPort("S3"); 
+
 		
-			EV3 ev3 = (EV3) BrickFinder.getLocal();
-			TextLCD lcd = ev3.getTextLCD();
-			Keys keys = ev3.getKeys();
+		EV3 ev3 = (EV3) BrickFinder.getLocal();
+		TextLCD lcd = ev3.getTextLCD();
+		Keys keys = ev3.getKeys();
 		
-			sjekkLyd();
-		} catch(Exception e) {
-			System.out.println("Feil: " + e);
-		}
+		sjekkLyd();
 		
 	}
 	
@@ -69,18 +67,18 @@ class Main {
 		boolean fortsett = true;
 
 		while (fortsett){ 	// Fortsett så lenge roboten ikke treffer noe
-		   fargeLeser.fetchSample(fargeSample, 0);
-		   
-		   if (fargeSample[0]*100 > svart) {   // sjekk sort linje
-		   	  return false;
-			  System.out.println("hvit");
-		   } else {
-			   // Kjør framover
-			  	fortsett = false;
-			  	return true;
-			   	System.out.println("svart");
-	  	   }
-	   }
+			fargeLeser.fetchSample(fargeSample, 0);
+			
+			if (fargeSample[0]*100 > svart) {   // sjekk sort linje
+				System.out.println("hvit");
+				return false;
+			} else {
+				// Kjør framover
+				System.out.println("svart");
+				fortsett = false;
+				return true;
+			}
+		}
 
 
 	}
@@ -95,7 +93,7 @@ class Main {
 		LCD.clear();
 		System.out.println("Kjører fremover");
 		Motor.A.setSpeed(400);
-   		Motor.C.setSpeed(400);
+		Motor.C.setSpeed(400);
 		Motor.A.forward();  // Start motor A - kjør framover
 		Motor.C.forward();  // Start motor C - kjør framover
 		Thread.sleep(2000);
@@ -105,8 +103,8 @@ class Main {
 	static void stoppOgVent() throws Exception{
 		LCD.clear();
 		Motor.A.stop();
-        Motor.C.stop();
-        Thread.sleep(4000);
+		Motor.C.stop();
+		Thread.sleep(4000);
 	}
 	
 	// stoppOgSnu
