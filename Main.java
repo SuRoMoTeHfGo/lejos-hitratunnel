@@ -19,102 +19,26 @@ import lejos.robotics.SampleProvider;
 import lejos.hardware.sensor.*;
 
 
-class Main {
+public class Main{
+	public static void main (String[] arg) throws Exception  {
 	
-	static Brick brick = BrickFinder.getDefault();
-	static Port s1 = brick.getPort("S1"); // soundSensor
-	static Port s2 = brick.getPort("S2"); // fargeSensor
-	static Port s3 = brick.getPort("S3");
 	
-	// Hovedfunksjon
-	static void main(String[] args) throws Exception {
-		// sjekkLyd()
-		// sjekkEnde()
-		// sjekkVeikant()
-		// kjørFrem()
-		// snu()
-		// stoppOgVent()
-
+		// Definerer sensorer:
+		Brick brick = BrickFinder.getDefault();
+    	Port s1 = brick.getPort("S1"); // fargesensor
+ 		Port s2 = brick.getPort("S2"); // trykksensor
+		EV3ColorSensor fargesensor = new EV3ColorSensor(s1); // ev3-fargesensor
 		
-		EV3 ev3 = (EV3) BrickFinder.getLocal();
-		TextLCD lcd = ev3.getTextLCD();
-		Keys keys = ev3.getKeys();
 		
-		sjekkLyd();
-		
-	}
-	
-	// sjekkLyd
-	static void sjekkLyd() { // Skal være en boolean
-		NXTSoundSensor soundSensor = new NXTSoundSensor(s1);
-		float[] volume = new float[soundSensor.sampleSize()];
-		System.out.println(volume);
-	}
-	
-	// sjekkEnde
-	static boolean sjekkEnde() throws Exception{
-		EV3ColorSensor fargesensor = new EV3ColorSensor(s2); // ev3-fargesensor
 		SampleProvider fargeLeser = fargesensor.getMode("RGB");  // svart = 0.01..
 		float[] fargeSample = new float[fargeLeser.sampleSize()];  // tabell som innholder avlest verdi
+		
+		/* Definerer en trykksensor */
+		SampleProvider trykksensor = new EV3TouchSensor(s2);
+		float[] trykkSample = new float[trykksensor.sampleSize()]; // tabell som inneholder avlest verdi
+		
+		
+	}
 
-		int svart = 0;
-		for (int i = 0; i<100; i++){
-			fargeLeser.fetchSample(fargeSample, 0);
-			svart += fargeSample[0]* 100;
-		}
-		svart = svart / 100 + 5;
-		System.out.println("Svart: " + svart);
-		boolean fortsett = true;
-
-		while (fortsett){ 	// Fortsett så lenge roboten ikke treffer noe
-			fargeLeser.fetchSample(fargeSample, 0);
-			
-			if (fargeSample[0]*100 > svart) {   // sjekk sort linje
-				System.out.println("hvit");
-				return false;
-			} else {
-				// Kjør framover
-				System.out.println("svart");
-				fortsett = false;
-				return true;
-			}
-		}
-
-
-	}
-	
-	// sekkVeikant
-	static boolean sjekkVeikant() throws Exception {
-		return true;
-	}
-	
-	// kjorFrem
-	static void kjorFrem()throws Exception{
-		LCD.clear();
-		System.out.println("Kjører fremover");
-		Motor.A.setSpeed(400);
-		Motor.C.setSpeed(400);
-		Motor.A.forward();  // Start motor A - kjør framover
-		Motor.C.forward();  // Start motor C - kjør framover
-		Thread.sleep(2000);
-	}
-	
-	// stoppOgVent
-	static void stoppOgVent() throws Exception{
-		LCD.clear();
-		Motor.A.stop();
-		Motor.C.stop();
-		Thread.sleep(4000);
-	}
-	
-	// stoppOgSnu
-	static void stoppOgSnu()throws Exception{
-		LCD.clear();
-		System.out.println("Svinger 180 grader");
-		Motor.A.forward();  // Start motor A - kjør framover
-		Motor.C.backward(); // Start motor C - kjør bakover
-		Thread.sleep(2000);
-	}
-	
-	
+  
 }
