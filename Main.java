@@ -59,14 +59,12 @@ public class Main{
 	    svart = svart / 100 + 5;
 	    System.out.println("Svart: " + svart);
 
-
-
+	    // Initierer variabler før løkken
 	    boolean fortsett = true;
 	    boolean fremover = true;
 	    int retning = 0;
 		
-		
-		while (fortsett){ 	// Fortsett så lenge roboten ikke treffer en svart linje
+		while (fortsett){ 	// Fortsett så lenge trykksensoren ikke blir trykket inn
 			
 			// Fargesensor ting
 			fargeLeser.fetchSample(fargeSample, 0);
@@ -99,9 +97,9 @@ public class Main{
 				Motor.C.stop();
 				Motor.B.stop();
 			}
-		}
-		
-	}
+		} // End while
+	} // End main
+
 	
 	public static void kjor(int retning) throws Exception {
 		   // Kjør framover
@@ -118,7 +116,7 @@ public class Main{
 			System.out.println("Kjorer tilbake");
 			Thread.sleep(100);
 		}
-	}
+	} // End kjor
 	
 	public static void stoppOgVent(int retning) throws Exception {
 		Motor.A.stop();
@@ -127,7 +125,6 @@ public class Main{
 		System.out.println("Venter pa at bilen skal kjore trygt forbi...");
 		Thread.sleep(3000);
 		kjor(retning);
-	}
+	} // End stoppOgVent
 	
-  
-}
+} // End Main
