@@ -21,8 +21,8 @@ import lejos.hardware.sensor.*;
 
 public class Main{
 	public static void main (String[] arg) throws Exception  {
-	
-	
+		
+		
 		// Definerer sensorer:
 		Brick brick = BrickFinder.getDefault();
     	Port s1 = brick.getPort("S1"); // fargesensor
@@ -45,11 +45,11 @@ public class Main{
 		float[] lydSample = new float[lydLeser.sampleSize()]; // tabell som inneholder avlest verdi
 		
 		// Setter hastighet på roboten
-	    Motor.A.setSpeed(200);
-	    Motor.C.setSpeed(200);
+		Motor.A.setSpeed(200);
+		Motor.C.setSpeed(200);
 	    Motor.B.setSpeed(800);  // vifte arm
-		
-		
+	    
+	    
 		// Beregn verdi for svart
 	    int svart = 0;
 	    for (int i = 0; i<100; i++){
@@ -63,7 +63,7 @@ public class Main{
 	    boolean fortsett = true;
 	    boolean fremover = true;
 	    int retning = 0;
-		
+	    
 		while (fortsett){ 	// Fortsett så lenge trykksensoren ikke blir trykket inn
 			
 			// Fargesensor ting
